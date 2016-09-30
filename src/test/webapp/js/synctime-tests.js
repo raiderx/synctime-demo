@@ -13,6 +13,23 @@
         };
     }
 
+    QUnit.test('init', function(assert) {
+
+        assert.throws(function() {
+            var options = { now: null };
+            SyncTime.init(options);
+        }, 'Option \'now\' must be a function that returns a number');
+
+        assert.throws(function() {
+            var options = { now: function() { return null; } };
+            SyncTime.init(options);
+        }, 'Option \'now\' must return a number');
+
+        SyncTime.init();
+
+        SyncTime.init({});
+    });
+
     QUnit.test('newDate', function(assert) {
 
         var date = new Date(1995, 11, 17, 3, 24, 0);

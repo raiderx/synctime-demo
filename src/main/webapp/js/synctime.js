@@ -57,20 +57,45 @@
     }
 
     SyncTime.init = function(options) {
-        _options = $.extend({}, defaults, options || {});
+        var opts = $.extend({}, defaults, options || {});
+
+        if (typeof opts.now !== 'function') {
+            throw 'Option \'now\' must be a function that returns a number';
+        }
+        var now = opts.now();
+        if (typeof now !== 'number') {
+            throw 'Option \'now\' must return a number';
+        }
+
+        _options = opts;
         _offsets = [];
     };
 
+    /**
+     * Returns a JavaScript {Date} instance that represents a single moment in time.
+     *
+     * @returns a JavaScript {Date} instance that represents a single moment in time.
+     */
     SyncTime.newDate = function() {
         var date = new Date();
         date.setTime(SyncTime.now());
         return date;
     };
 
+    /**
+     * Returns the number of milliseconds elapsed since 1 January 1970 00:00:00 UTC.
+     *
+     * @returns a {Number} representing the milliseconds elapsed since the UNIX epoch.
+     */
     SyncTime.getTime = function() {
         return SyncTime.now();
     };
 
+    /**
+     * Returns the number of milliseconds elapsed since 1 January 1970 00:00:00 UTC.
+     *
+     * @returns a {Number} representing the milliseconds elapsed since the UNIX epoch.
+     */
     SyncTime.now = function() {
         var data = _getJsonStorageData();
         return _now() + (data && data.offset ? data.offset : 0);
@@ -97,7 +122,7 @@
             _offsets.push(offset);
 
             if (_offsets.length < _options.minRequestsCount) {
-                SyncTime.sync();
+                SyncTime.sync(callback);
                 return;
             }
 
@@ -107,7 +132,6 @@
 
             var average = 0;
             if (_offsets.length > 1) {
-                console.log(_offsets);
                 for (var i = 0; i < _offsets.length; ++i) {
                     average += _offsets[i];
                 }
