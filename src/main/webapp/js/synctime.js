@@ -26,7 +26,7 @@
         url: 'synctime',
         method: 'GET',
         minRequestsCount: 5,
-        resyncTime: 10,
+        minResyncTime: 0,
         maxOffsetsCount: 20,
         storage: cookieStorage,
         dataKey: 'SyncTimeData'
@@ -103,11 +103,14 @@
 
     SyncTime.sync = function(callback) {
         var now = _now();
-        /*var data = _getJsonStorageData();
-        var d = now - (data && data.timestamp ? data.timestamp : 0);
-        if (d < _options.resyncTime * 60 * 1000) {
-            return;
-        }*/
+
+        if (_options.minResyncTime > 0) {
+            var data = _getJsonStorageData();
+            var d = now - (data && data.timestamp ? data.timestamp : 0);
+            if (d < _options.minResyncTime * 60 * 1000) {
+                return;
+            }
+        }
 
         _options.ajax({
             url: _options.url,
