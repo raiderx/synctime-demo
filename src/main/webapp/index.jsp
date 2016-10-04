@@ -17,13 +17,16 @@
 <script src="js/synctime.js"></script>
 <script type="text/javascript">
     $(function() {
-        $('#time').text(SyncTime.newDate());
+        var callback = function(offset) {
+            $('#time').text(SyncTime.newDate());
+            $('#offset').text(offset);
+        };
+
+        SyncTime.init({ resyncInterval: 30 });
+        SyncTime.scheduleSync(callback);
 
         $('#sync').on('click', function() {
-            SyncTime.sync(function(offset) {
-                $('#time').text(SyncTime.newDate());
-                $('#offset').text(offset);
-            });
+            SyncTime.sync(callback);
         });
     });
 </script>

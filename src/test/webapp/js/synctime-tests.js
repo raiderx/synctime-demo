@@ -13,7 +13,7 @@
         };
     }
 
-    QUnit.test('init', function(assert) {
+    QUnit.test('SyncTime.init()', function(assert) {
 
         assert.throws(function() {
             var options = { now: null };
@@ -30,7 +30,7 @@
         SyncTime.init({});
     });
 
-    QUnit.test('newDate', function(assert) {
+    QUnit.test('SyncTime.newDate()', function(assert) {
 
         var date = new Date(1995, 11, 17, 3, 24, 0);
         var options = {
@@ -43,7 +43,7 @@
         assert.deepEqual(SyncTime.newDate(), date);
     });
 
-    QUnit.test('getTime', function(assert) {
+    QUnit.test('SyncTime.getTime()', function(assert) {
 
         var ts = new Date(1995, 11, 17, 3, 24, 0).getTime();
         var options = {
@@ -56,7 +56,7 @@
         assert.equal(SyncTime.getTime(), ts);
     });
 
-    QUnit.test('now', function(assert) {
+    QUnit.test('SyncTime.now()', function(assert) {
 
         var ts = new Date(1995, 11, 17, 3, 24, 0).getTime();
         var options = {
@@ -69,7 +69,7 @@
         assert.equal(SyncTime.now(), ts);
     });
 
-    QUnit.test('sync', function(assert) {
+    QUnit.test('SyncTime.sync()', function(assert) {
 
         var dfd = $.Deferred();
         var ts = new Date(1995, 11, 17, 3, 24, 0).getTime();

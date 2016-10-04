@@ -1,4 +1,4 @@
-(function() {
+;(function() {
 
     var SyncTime = {};
 
@@ -26,7 +26,7 @@
         url: 'synctime',
         method: 'GET',
         minRequestsCount: 5,
-        minResyncTime: 0,
+        resyncInterval: 0,
         maxOffsetsCount: 20,
         storage: cookieStorage,
         dataKey: 'SyncTimeData'
@@ -101,16 +101,13 @@
         return _now() + (data && data.offset ? data.offset : 0);
     };
 
+    /**
+     * Starts time synchronisation immediately
+     *
+     * @param callback will be executed after synchronisation, time offset will be passed as parameter
+     */
     SyncTime.sync = function(callback) {
         var now = _now();
-
-        if (_options.minResyncTime > 0) {
-            var data = _getJsonStorageData();
-            var d = now - (data && data.timestamp ? data.timestamp : 0);
-            if (d < _options.minResyncTime * 60 * 1000) {
-                return;
-            }
-        }
 
         _options.ajax({
             url: _options.url,
@@ -149,6 +146,25 @@
                 callback(average);
             }
         });
+    };
+
+    /**
+     * Starts time synchronisation in background
+     *
+     * @param callback will be executed after synchronisation, time offset will be passed as parameter
+     */
+    SyncTime.scheduleSync = function(callback) {
+        SyncTime.sync(callback);
+
+        if (_options.resyncInterval > 0) {
+            setTimeout(function () {
+                try {
+                    SyncTime.scheduleSync(callback);
+                } catch (e) {
+                }
+
+            }, _options.resyncInterval * 1000);
+        }
     };
 
     window.SyncTime = SyncTime;
