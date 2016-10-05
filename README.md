@@ -3,13 +3,23 @@ Sync Time Demo
 
 Library for time synchronization on the client.
 
+## Requirements
+
 SyncTime requires jQuery 1.5.
 
-# Initialization
+## Initialization
 
-Use `init()` method to initialize synchronisation with different parameters 
+Use `init()` method to initialize synchronisation:
 
-``` SyncTime.init({ url: '/synctime', method: 'POST' }); ```
+```javascript
+SyncTime.init();
+```
+
+Also you can initialize synchronisation with different parameters: 
+
+```javascript
+SyncTime.init({ url: '/synctime', method: 'POST' });
+```
 
 Synchronisation can be initialized with the following parameters:
 
@@ -23,7 +33,7 @@ Synchronisation can be initialized with the following parameters:
 * storage - object that stores synchronisation data, by default such data is stores in cookie,
 * dataKey - name of the key for synchronisation data, by default it is `SyncTimeData`.
 
-# Using
+## Using
 
 SyncTime.sync() makes a number of requests to the server. It passes the client timestamp in milliseconds in UTC time.
 
@@ -33,14 +43,26 @@ The server sends response in JSON format with time offset and original timestamp
 
 ``` {"offset":6,"origtime":1475568396666} ```
 
-``` var now = SyncTime.newDate(); ```
+In order to get a JavaScript `Date` instance you can use:
+
+```javascript
+var now = SyncTime.newDate();
+```
  
- is similar to
+ It is similar to:
  
-``` var now = new Date(); ``` 
+```javascript
+var now = new Date();
+```
+ 
+ In order to get the number of milliseconds elapsed since 1 January 1970 00:00:00 UTC you can use:
 
-``` var now = SyncTime.getTime(); ```
+```javascript
+var now = SyncTime.getTime();
+```
 
-is similar to
+It is similar to:
 
-``` var now = new Date().getTime(); ```
+```javascript
+var now = new Date().getTime();
+```
