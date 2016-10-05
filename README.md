@@ -53,7 +53,7 @@ Synchronisation can be initialized with the following parameters:
 
 * storage
 
-  Object that stores synchronisation data, by default such data is stores in cookie. You can use custom storage,
+  Object that stores synchronisation data, by default such data is stored in cookie. You can use custom storage,
   for example:
 
   ```javascript
@@ -69,6 +69,14 @@ Synchronisation can be initialized with the following parameters:
           _value = v;
       };
   }
+  
+  SyncTime.init({ storage: new FooStorage() });
+  ```
+  
+  You can use `localStorage`:
+  
+  ```javascript
+  SyncTime.init({ storage: localStorage });
   ```
 
 * dataKey
