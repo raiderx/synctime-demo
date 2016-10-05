@@ -23,15 +23,57 @@ SyncTime.init({ url: '/synctime', method: 'POST' });
 
 Synchronisation can be initialized with the following parameters:
 
-* now - custom function that returns current timestamp in milliseconds,
-* ajax - custom function that makes AJAX request, by default it is jQuery `$.ajax`,
-* url - request url that returns server response, by default it is `synctime`,
-* method - request method, by default it is `GET`,
-* minRequestCount - minimum number of requests sufficient for time synchronisation, by default it is 5,
-* resyncInterval - interval in seconds between requests to the server, by default it is 0 i.e. no requests,
-* maxOffsetsCount - maximum number of offsets between client and server time, by default it is 20,
-* storage - object that stores synchronisation data, by default such data is stores in cookie,
-* dataKey - name of the key for synchronisation data, by default it is `SyncTimeData`.
+* now 
+
+  Custom function that returns current timestamp in milliseconds.
+  
+* ajax
+ 
+  Custom function that makes AJAX request, by default it is jQuery `$.ajax`.
+
+* url
+ 
+  A string containing the URL to which the request is sent, by default it is `synctime`.
+
+* method
+ 
+  The HTTP method to use for request, by default it is `GET`.
+
+* minRequestCount
+ 
+  Minimum number of requests sufficient for time synchronisation, by default it is 5.
+
+* resyncInterval
+ 
+  Interval in seconds between requests to the server, by default it is 0 i.e. no requests.
+
+* maxOffsetsCount 
+
+  Maximum number of offsets between client and server time, by default it is 20.
+
+* storage
+
+  Object that stores synchronisation data, by default such data is stores in cookie. You can use custom storage,
+  for example:
+
+  ```javascript
+  function FooStorage() {
+  
+      var _value = null;
+  
+      this.getItem = function () {
+          return _value;
+      };
+
+      this.setItem = function (k, v) {
+          _value = v;
+      };
+  }
+  ```
+
+* dataKey
+ 
+  Name of the key for synchronisation data, by default it is `SyncTimeData`.
 
 ## Using
 
