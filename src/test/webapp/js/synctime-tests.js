@@ -34,7 +34,8 @@
 
         var date = new Date(1995, 11, 17, 3, 24, 0);
         var options = {
-            now: function() { return date.getTime(); }
+            now: function() { return date.getTime(); },
+            storage: new FakeStorage()
         };
 
         SyncTime.init(options);
@@ -44,9 +45,10 @@
 
     QUnit.test('SyncTime.getTime()', function(assert) {
 
-        var ts = new Date(1995, 11, 17, 3, 24, 0).getTime();
+        var ts = 1000000;
         var options = {
-            now: function() { return ts; }
+            now: function() { return ts; },
+            storage: new FakeStorage()
         };
 
         SyncTime.init(options);
@@ -56,7 +58,7 @@
 
     QUnit.test('SyncTime.now()', function(assert) {
 
-        var ts = new Date(1995, 11, 17, 3, 24, 0).getTime();
+        var ts = 1000000;
         var options = {
             now: function() { return ts; },
             storage: new FakeStorage()
